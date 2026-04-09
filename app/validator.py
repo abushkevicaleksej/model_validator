@@ -75,7 +75,7 @@ class ModelValidator:
             }
             return {"valid": is_valid, "message": "OK" if is_valid else "Неверный формат выхода", "details": details}
         except Exception as e:
-            return {"valid": False, "message": f"Ошибка валидации YOLOv8: {str(e)}"}
+            return {"valid": False, "message": f"Ошибка валидации YOLO: {str(e)}"}
 
     @classmethod
     def validate_pytorch(cls, model_bytes: bytes, test_image_bytes: Optional[bytes] = None) -> Dict[str, Any]:
