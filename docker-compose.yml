@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  model-validator:
+    build: .
+    ports:
+      - "3033:3033"
+    volumes:
+      - ./app:/app/app

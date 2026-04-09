@@ -1,0 +1,11 @@
+fastapi==0.110.0
+uvicorn==0.27.0
+pydantic==2.5.3
+python-multipart==0.0.9
+numpy==1.24.3
+torch==2.2.1
+torchvision==0.17.1
+ultralytics==8.1.0   # для YOLOv8
+onnxruntime==1.17.1  # для ONNX
+tensorflow==2.15.0   # для TensorFlow (опционально)
+pillow==10.1.0
