@@ -28,6 +28,16 @@ class ModelValidator:
                 confs = predictions.boxes.conf.cpu().numpy()
                 cls_ids = predictions.boxes.cls.cpu().numpy()
                 return len(boxes) >= 0
+            if isinstance(predictions, (list, tuple)) and len(predictions) > 0:
+                first = predictions[0]
+                if isinstance(first, dict):
+                    keys = set(first.keys())
+                    if keys == {'boxes', 'labels', 'scores'}:
+                        if all(k in first for k in ('boxes', 'labels', 'scores')):
+                            return True
+                    if 'boxes' in keys and 'scores' in keys:
+                        return True
+                return False
             elif isinstance(predictions, (list, tuple)):
                 for pred in predictions:
                     if isinstance(pred, dict):
@@ -94,10 +104,10 @@ class ModelValidator:
                 img = cls._to_numpy(test_image_bytes)
                 img_tensor = torch.from_numpy(img).permute(2,0,1).unsqueeze(0).float() / 255.0
             else:
-                img_tensor = torch.randn(1, 3, 640, 640)
+                img_tensor = torch.randn(3, 640, 640)
 
             with torch.no_grad():
-                out = model(img_tensor)
+                out = model([img_tensor])
 
             is_valid = cls._check_output_format(out)
             return {"valid": is_valid, "message": "OK" if is_valid else "Неверный формат выхода", "details": {"output_shape": str(out.shape) if hasattr(out, 'shape') else None}}
